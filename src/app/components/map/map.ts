@@ -4,6 +4,9 @@ import { GoogleMapsModule } from '@angular/google-maps';
 import { GoogleMapsLoaderService } from '../../services/google-maps-loader.service';
 import { HotelService } from '../../services/hotel.service';
 import { createHotelBounds } from '../../shared/utils/map-bounds.util';
+import { createHotelMarkers } from '../../shared/utils/hotel-marker.util';
+import { Hotel } from '../../models/hotel.model';
+import { environment } from '../../environments/environment.development';
 
 @Component({
   selector: 'app-map',
@@ -17,10 +20,12 @@ export class MapComponent implements OnInit {
   private readonly mapBoundsPadding = 48;
 
   readonly hotels = this.hotelService.getHotels();
+  readonly hotelMarkers = createHotelMarkers(this.hotels);
   apiLoaded = signal(false);
   apiLoadError = signal<string | null>(null);
 
   center: google.maps.LatLngLiteral = { lat: 39.92077, lng: 32.85411 };
+  mapId = environment.googleMapsMapId;
   zoom = 6;
 
   ngOnInit() {
@@ -53,5 +58,9 @@ export class MapComponent implements OnInit {
     }
 
     map.fitBounds(bounds, this.mapBoundsPadding);
+  }
+
+  handleHotelMarkerClick(hotel: Hotel) {
+    console.log('Hotel marker clicked', hotel);
   }
 }

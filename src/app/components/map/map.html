@@ -3,9 +3,19 @@
     height="600px"
     width="100%"
     [center]="center"
+    [mapId]="mapId"
     [zoom]="zoom"
     (mapInitialized)="fitHotelsOnMap($event)"
     (authFailure)="handleMapsAuthFailure()">
+    @for (hotelMarker of hotelMarkers; track hotelMarker.id) {
+      <map-advanced-marker
+        [position]="hotelMarker.position"
+        [content]="hotelMarker.content"
+        [title]="hotelMarker.title"
+        [gmpClickable]="true"
+        (gmpClick)="handleHotelMarkerClick(hotelMarker.hotel)">
+      </map-advanced-marker>
+    }
   </google-map>
 } @else if (apiLoadError()) {
   <div class="loading-message">
