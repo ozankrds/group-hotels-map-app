@@ -1,0 +1,18 @@
+@if (apiLoaded()) {
+  <google-map
+    height="600px"
+    width="100%"
+    [center]="center"
+    [zoom]="zoom"
+    (mapInitialized)="fitHotelsOnMap($event)"
+    (authFailure)="handleMapsAuthFailure()">
+  </google-map>
+} @else if (apiLoadError()) {
+  <div class="loading-message">
+    {{ apiLoadError() }}
+  </div>
+} @else {
+  <div class="loading-message">
+    Harita yukleniyor, lutfen bekleyin...
+  </div>
+}
