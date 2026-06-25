@@ -4,6 +4,7 @@ export interface Hotel {
   rating: number
   segment: string
   imageUrl: string
+  description: string
   latitude: number
   longitude: number
 }
