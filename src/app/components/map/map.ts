@@ -7,12 +7,13 @@ import { createHotelBounds } from '../../shared/utils/map-bounds.util';
 import { createHotelMarkers } from '../../shared/utils/hotel-marker.util';
 import { Hotel } from '../../models/hotel.model';
 import { environment } from '../../environments/environment.development';
+import { HotelDetail } from '../hotel-detail/hotel-detail';
 
 @Component({
   selector: 'app-map',
-  imports: [GoogleMapsModule, CommonModule],
+  imports: [GoogleMapsModule, CommonModule, HotelDetail],
   templateUrl: './map.html',
-  styleUrl: './map.css',
+  styleUrl: './map.scss',
 })
 export class MapComponent implements OnInit {
   private readonly hotelService = inject(HotelService);
@@ -27,6 +28,8 @@ export class MapComponent implements OnInit {
   center: google.maps.LatLngLiteral = { lat: 39.92077, lng: 32.85411 };
   mapId = environment.googleMapsMapId;
   zoom = 6;
+
+  selectedHotel = signal<Hotel | null>(null);
 
   ngOnInit() {
     void this.loadGoogleMapsApi();
@@ -61,6 +64,10 @@ export class MapComponent implements OnInit {
   }
 
   handleHotelMarkerClick(hotel: Hotel) {
-    console.log('Hotel marker clicked', hotel);
+    this.selectedHotel.set(hotel);
+  }
+
+  closeHotelDetail() {
+    this.selectedHotel.set(null);
   }
 }

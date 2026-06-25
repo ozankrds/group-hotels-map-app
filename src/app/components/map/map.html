@@ -7,6 +7,7 @@
     [zoom]="zoom"
     (mapInitialized)="fitHotelsOnMap($event)"
     (authFailure)="handleMapsAuthFailure()">
+
     @for (hotelMarker of hotelMarkers; track hotelMarker.id) {
       <map-advanced-marker
         [position]="hotelMarker.position"
@@ -16,12 +17,23 @@
         (gmpClick)="handleHotelMarkerClick(hotelMarker.hotel)">
       </map-advanced-marker>
     }
+
+    @if (selectedHotel(); as hotel) {
+      <app-hotel-detail
+      [hotel]="hotel"
+      (closed)="closeHotelDetail()">
+      </app-hotel-detail>
+    }
   </google-map>
-} @else if (apiLoadError()) {
+}
+
+@else if (apiLoadError()) {
   <div class="loading-message">
     {{ apiLoadError() }}
   </div>
-} @else {
+}
+
+@else {
   <div class="loading-message">
     Harita yukleniyor, lutfen bekleyin...
   </div>

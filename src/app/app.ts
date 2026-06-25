@@ -5,6 +5,6 @@ import { MapComponent } from './components/map/map';
   selector: 'app-root',
   imports: [MapComponent],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrl: './app.scss'
 })
 export class App {}
