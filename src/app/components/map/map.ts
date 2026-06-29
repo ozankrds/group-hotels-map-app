@@ -20,6 +20,7 @@ export class MapComponent implements OnInit {
   private readonly hotelService = inject(HotelService);
   private readonly googleMapsLoader = inject(GoogleMapsLoaderService);
   private readonly mapBoundsPadding = 48;
+  private readonly focusedHotelBoundsOffset = 0.01;
 
   readonly hotels = this.hotelService.getHotels();
   readonly hotelMarkers = createHotelMarkers(this.hotels);
@@ -30,6 +31,7 @@ export class MapComponent implements OnInit {
   center: google.maps.LatLngLiteral = { lat: 39.92077, lng: 32.85411 };
   zoom = 6;
   mapId = environment.googleMapsMapId;
+  private map?: google.maps.Map;
 
   readonly hotelInfoWindowOptions: google.maps.InfoWindowOptions = {
     headerDisabled: true,
@@ -62,14 +64,26 @@ export class MapComponent implements OnInit {
     this.apiLoadError.set('Google Maps API key veya billing ayarlarinda yetkilendirme hatasi var.');
   }
 
-  fitHotelsOnMap(map: google.maps.Map) {
-    const bounds = createHotelBounds(this.hotels);
+  fitHotelsOnMap(map = this.map, hotels: readonly Hotel[] = this.hotels) {
+    if (!map) {
+      return;
+    }
+
+    this.map = map;
+
+    const bounds = this.createBoundsForView(hotels);
 
     if (!bounds) {
       return;
     }
 
     map.fitBounds(bounds, this.mapBoundsPadding);
+  }
+
+  focusHotel(hotel: Hotel) {
+    this.closeHotelInfoWindow();
+    this.selectedHotel.set(null);
+    this.fitHotelsOnMap(this.map, [hotel]);
   }
 
   openHotelInfoWindow(marker: MapAdvancedMarker, hotel: Hotel) {
@@ -90,5 +104,25 @@ export class MapComponent implements OnInit {
 
   closeHotelDetail() {
     this.selectedHotel.set(null);
+  }
+
+  private createBoundsForView(hotels: readonly Hotel[]): google.maps.LatLngBounds | null {
+    if (hotels.length !== 1) {
+      return createHotelBounds(hotels);
+    }
+
+    const [hotel] = hotels;
+    const bounds = new google.maps.LatLngBounds();
+
+    bounds.extend({
+      lat: hotel.latitude - this.focusedHotelBoundsOffset,
+      lng: hotel.longitude - this.focusedHotelBoundsOffset,
+    });
+    bounds.extend({
+      lat: hotel.latitude + this.focusedHotelBoundsOffset,
+      lng: hotel.longitude + this.focusedHotelBoundsOffset,
+    });
+
+    return bounds;
   }
 }

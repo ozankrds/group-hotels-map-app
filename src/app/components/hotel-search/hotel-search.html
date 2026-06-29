@@ -1,0 +1,32 @@
+<section class="hotel-search" aria-label="Hotel search">
+  <label class="hotel-search__label" for="hotel-search-input">Search hotels</label>
+
+  <div class="hotel-search__controls">
+    <input
+      id="hotel-search-input"
+      class="hotel-search__input"
+      type="search"
+      autocomplete="off"
+      placeholder="Type a hotel name"
+      [value]="query()"
+      (input)="updateQuery($event)"
+    />
+
+    <button class="hotel-search__default" type="button" (click)="selectDefaultView()">
+      Default View
+    </button>
+  </div>
+
+  @if (results().length > 0) {
+    <ul class="hotel-search__results" aria-label="Search results">
+      @for (hotel of results(); track hotel.id) {
+        <li>
+          <button class="hotel-search__result" type="button" (click)="selectHotel(hotel)">
+            <span class="hotel-search__name">{{ hotel.name }}</span>
+            <span class="hotel-search__meta">{{ hotel.segment }} &middot; {{ hotel.rating }}</span>
+          </button>
+        </li>
+      }
+    </ul>
+  }
+</section>

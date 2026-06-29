@@ -1,1 +1,11 @@
-<app-map />
+<main class="app-shell">
+  <app-map></app-map>
+
+  <div class="app-shell__search">
+    <app-hotel-search
+      [hotels]="hotels"
+      (hotelSelected)="focusHotel($event)"
+      (defaultViewSelected)="showDefaultView()"
+    ></app-hotel-search>
+  </div>
+</main>

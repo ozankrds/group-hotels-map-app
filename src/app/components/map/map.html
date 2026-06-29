@@ -1,13 +1,13 @@
 @if (apiLoaded()) {
   <google-map
-    height="100vh"
+    height="100%"
     width="100%"
     [center]="center"
     [mapId]="mapId"
     [zoom]="zoom"
     (mapInitialized)="fitHotelsOnMap($event)"
-    (authFailure)="handleMapsAuthFailure()">
-
+    (authFailure)="handleMapsAuthFailure()"
+  >
     @for (hotelMarker of hotelMarkers; track hotelMarker.id) {
       <map-advanced-marker
         #marker="mapAdvancedMarker"
@@ -19,36 +19,25 @@
       ></map-advanced-marker>
     }
 
-    <map-info-window
-      [options]="hotelInfoWindowOptions"
-      (closeclick)="closeHotelInfoWindow()">
-
+    <map-info-window [options]="hotelInfoWindowOptions" (closeclick)="closeHotelInfoWindow()">
       @if (infoWindowHotel(); as hotel) {
         <app-hotel-info-window
           [hotel]="hotel"
           (details)="openHotelDetail(hotel)"
-          (closed)="closeHotelInfoWindow()">
+          (closed)="closeHotelInfoWindow()"
+        >
         </app-hotel-info-window>
       }
     </map-info-window>
 
     @if (selectedHotel(); as hotel) {
-      <app-hotel-detail
-      [hotel]="hotel"
-      (closed)="closeHotelDetail()">
-      </app-hotel-detail>
+      <app-hotel-detail [hotel]="hotel" (closed)="closeHotelDetail()"> </app-hotel-detail>
     }
   </google-map>
-}
-
-@else if (apiLoadError()) {
+} @else if (apiLoadError()) {
   <div class="loading-message">
     {{ apiLoadError() }}
   </div>
-}
-
-@else {
-  <div class="loading-message">
-    Harita yukleniyor, lutfen bekleyin...
-  </div>
+} @else {
+  <div class="loading-message">Harita yukleniyor, lutfen bekleyin...</div>
 }
