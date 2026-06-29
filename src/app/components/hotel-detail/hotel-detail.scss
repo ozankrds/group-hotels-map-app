@@ -97,13 +97,13 @@
   align-items: flex-start;
   gap: 18px;
   color: #243044;
-}
 
-.hotel-info h2 {
-  margin: 0;
-  color: #142033;
-  font-size: clamp(1.5rem, 2.5vw, 2.4rem);
-  line-height: 1.15;
+  h2 {
+    margin: 0;
+    color: #142033;
+    font-size: clamp(1.5rem, 2.5vw, 2.4rem);
+    line-height: 1.15;
+  }
 }
 
 .hotel-segment {
@@ -124,28 +124,28 @@
   gap: 14px;
   width: 100%;
   margin: 10px 0 0;
-}
 
-.hotel-stats div {
-  padding: 16px;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  background: #f8fafc;
-}
+  div {
+    padding: 16px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background: #f8fafc;
+  }
 
-.hotel-stats dt {
-  margin-bottom: 8px;
-  color: #667085;
-  font-size: 0.78rem;
-  font-weight: 700;
-  text-transform: uppercase;
-}
+  dt {
+    margin-bottom: 8px;
+    color: #667085;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
 
-.hotel-stats dd {
-  margin: 0;
-  color: #142033;
-  font-size: 1rem;
-  font-weight: 700;
+  dd {
+    margin: 0;
+    color: #142033;
+    font-size: 1rem;
+    font-weight: 700;
+  }
 }
 
 .hotel-description {
@@ -155,19 +155,19 @@
   border: 1px solid #e2e8f0;
   border-radius: 8px;
   background: #fff;
-}
 
-.hotel-description h3 {
-  margin: 0 0 10px;
-  color: #142033;
-  font-size: 1rem;
-}
+  h3 {
+    margin: 0 0 10px;
+    color: #142033;
+    font-size: 1rem;
+  }
 
-.hotel-description p {
-  margin: 0;
-  color: #475467;
-  font-size: 1rem;
-  line-height: 1.6;
+  p {
+    margin: 0;
+    color: #475467;
+    font-size: 1rem;
+    line-height: 1.6;
+  }
 }
 
 @media (max-width: 760px) {

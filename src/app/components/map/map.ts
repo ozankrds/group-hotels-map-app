@@ -22,12 +22,13 @@ export class MapComponent implements OnInit {
 
   readonly hotels = this.hotelService.getHotels();
   readonly hotelMarkers = createHotelMarkers(this.hotels);
+
   apiLoaded = signal(false);
   apiLoadError = signal<string | null>(null);
 
   center: google.maps.LatLngLiteral = { lat: 39.92077, lng: 32.85411 };
-  mapId = environment.googleMapsMapId;
   zoom = 6;
+  mapId = environment.googleMapsMapId;
 
   selectedHotel = signal<Hotel | null>(null);
 
