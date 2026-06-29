@@ -1,0 +1,25 @@
+<div class="hotel-info-window">
+  <div class="hotel-info-window__header">
+    <div class="hotel-info-window__title">
+      <span class="hotel-info-window__eyebrow">{{ hotel().segment }}</span>
+      <h2>{{ hotel().name }}</h2>
+    </div>
+
+    <button class="hotel-info-window__close" type="button" aria-label="Close" (click)="close()">
+      X
+    </button>
+  </div>
+
+  <dl class="hotel-info-window__details">
+    @for (row of rows(); track row.label) {
+      <div class="hotel-info-window__row">
+        <dt>{{ row.label }}</dt>
+        <dd>{{ row.value }}</dd>
+      </div>
+    }
+  </dl>
+
+  <button class="hotel-info-window__button" type="button" (click)="seeDetails()">
+    See Details
+  </button>
+</div>

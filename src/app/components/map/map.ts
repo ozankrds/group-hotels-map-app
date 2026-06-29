@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject, signal } from '@angular/core';
-import { GoogleMapsModule } from '@angular/google-maps';
+import { Component, OnInit, inject, signal, ViewChild } from '@angular/core';
+import { GoogleMapsModule, MapAdvancedMarker, MapInfoWindow } from '@angular/google-maps';
 import { GoogleMapsLoaderService } from '../../services/google-maps-loader.service';
 import { HotelService } from '../../services/hotel.service';
 import { createHotelBounds } from '../../shared/utils/map-bounds.util';
@@ -8,10 +8,11 @@ import { createHotelMarkers } from '../../shared/utils/hotel-marker.util';
 import { Hotel } from '../../models/hotel.model';
 import { environment } from '../../environments/environment.development';
 import { HotelDetail } from '../hotel-detail/hotel-detail';
+import { HotelInfoWindow } from '../hotel-info-window/hotel-info-window';
 
 @Component({
   selector: 'app-map',
-  imports: [GoogleMapsModule, CommonModule, HotelDetail],
+  imports: [GoogleMapsModule, CommonModule, HotelDetail, HotelInfoWindow],
   templateUrl: './map.html',
   styleUrl: './map.scss',
 })
@@ -30,6 +31,13 @@ export class MapComponent implements OnInit {
   zoom = 6;
   mapId = environment.googleMapsMapId;
 
+  readonly hotelInfoWindowOptions: google.maps.InfoWindowOptions = {
+    headerDisabled: true,
+    maxWidth: 260,
+  };
+
+  @ViewChild(MapInfoWindow) hotelInfoWindow?: MapInfoWindow;
+  infoWindowHotel = signal<Hotel | null>(null);
   selectedHotel = signal<Hotel | null>(null);
 
   ngOnInit() {
@@ -64,7 +72,19 @@ export class MapComponent implements OnInit {
     map.fitBounds(bounds, this.mapBoundsPadding);
   }
 
-  handleHotelMarkerClick(hotel: Hotel) {
+  openHotelInfoWindow(marker: MapAdvancedMarker, hotel: Hotel) {
+    this.hotelInfoWindow?.open(marker);
+    this.infoWindowHotel.set(hotel);
+  }
+
+  closeHotelInfoWindow() {
+    this.hotelInfoWindow?.close();
+    this.infoWindowHotel.set(null);
+  }
+
+  openHotelDetail(hotel: Hotel) {
+    this.hotelInfoWindow?.close();
+    this.infoWindowHotel.set(null);
     this.selectedHotel.set(hotel);
   }
 

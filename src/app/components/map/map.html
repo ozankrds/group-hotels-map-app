@@ -10,13 +10,27 @@
 
     @for (hotelMarker of hotelMarkers; track hotelMarker.id) {
       <map-advanced-marker
+        #marker="mapAdvancedMarker"
         [position]="hotelMarker.position"
         [content]="hotelMarker.content"
         [title]="hotelMarker.title"
         [gmpClickable]="true"
-        (gmpClick)="handleHotelMarkerClick(hotelMarker.hotel)">
-      </map-advanced-marker>
+        (gmpClick)="openHotelInfoWindow(marker, hotelMarker.hotel)"
+      ></map-advanced-marker>
     }
+
+    <map-info-window
+      [options]="hotelInfoWindowOptions"
+      (closeclick)="closeHotelInfoWindow()">
+
+      @if (infoWindowHotel(); as hotel) {
+        <app-hotel-info-window
+          [hotel]="hotel"
+          (details)="openHotelDetail(hotel)"
+          (closed)="closeHotelInfoWindow()">
+        </app-hotel-info-window>
+      }
+    </map-info-window>
 
     @if (selectedHotel(); as hotel) {
       <app-hotel-detail
