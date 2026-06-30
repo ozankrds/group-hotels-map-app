@@ -14,6 +14,7 @@ Create this file locally before running the app:
 export const environment = {
   production: false,
   googleMapsApiKey: 'YOUR_GOOGLE_MAPS_API_KEY',
+  googleMapsMapId: 'YOUR_GOOGLE_MAPS_MAP_ID',
 };
 ```
 
