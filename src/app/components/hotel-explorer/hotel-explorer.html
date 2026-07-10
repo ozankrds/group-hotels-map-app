@@ -1,0 +1,11 @@
+<main class="hotel-explorer">
+  <app-hotel-map></app-hotel-map>
+
+  <div class="hotel-explorer__search">
+    <app-hotel-search
+      [hotels]="hotels"
+      (hotelSelected)="showHotel($event)"
+      (defaultViewSelected)="showAllHotels()"
+    ></app-hotel-search>
+  </div>
+</main>

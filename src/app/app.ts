@@ -1,27 +1,10 @@
-import { Component, ViewChild, inject } from '@angular/core';
-import { HotelMap } from './components/hotel-map/hotel-map';
-import { HotelSearch } from './components/hotel-search/hotel-search';
-import { Hotel } from './models/hotel.model';
-import { HotelService } from './services/hotel.service';
+import { Component } from '@angular/core';
+import { HotelExplorer } from './components/hotel-explorer/hotel-explorer';
 
 @Component({
   selector: 'app-root',
-  imports: [HotelMap, HotelSearch],
+  imports: [HotelExplorer],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
-export class App {
-  private readonly hotelService = inject(HotelService);
-
-  readonly hotels = this.hotelService.getHotels();
-
-  @ViewChild(HotelMap) private hotelMap?: HotelMap;
-
-  focusHotel(hotel: Hotel) {
-    this.hotelMap?.showHotelsOnMap([hotel]);
-  }
-
-  showDefaultView() {
-    this.hotelMap?.showHotelsOnMap();
-  }
-}
+export class App {}

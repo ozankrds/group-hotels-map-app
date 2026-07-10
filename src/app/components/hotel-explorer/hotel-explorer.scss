@@ -1,0 +1,31 @@
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+.hotel-explorer {
+  position: relative;
+  min-height: 100vh;
+}
+
+.hotel-explorer app-hotel-map {
+  display: block;
+  height: 100vh;
+}
+
+.hotel-explorer__search {
+  position: absolute;
+  z-index: 5;
+  top: 10px;
+  left: 220px;
+  width: min(560px, calc(100vw - 240px));
+}
+
+@media (max-width: 760px) {
+  .hotel-explorer__search {
+    top: 72px;
+    left: 10px;
+    right: 10px;
+    width: auto;
+  }
+}
