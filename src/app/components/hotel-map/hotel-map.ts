@@ -18,7 +18,6 @@ import { MapComponent } from '../map/map';
 export class HotelMap {
   private readonly hotelService = inject(HotelService);
   private readonly mapBoundsPadding = 48;
-  private readonly focusedHotelBoundsOffset = 0.01;
 
   readonly hotels = this.hotelService.getHotels();
   readonly hotelMarkers = createHotelMarkers(this.hotels);
@@ -40,27 +39,27 @@ export class HotelMap {
 
   handleMapReady(map: google.maps.Map) {
     this.map = map;
-    this.fitHotelsOnMap(map);
+    this.fitHotelsOnMap();
   }
 
-  fitHotelsOnMap(map = this.map, hotels: readonly Hotel[] = this.hotels) {
-    if (!map) {
+  showHotelsOnMap(hotels: readonly Hotel[] = this.hotels) {
+    this.closeHotelInfoWindow();
+    this.selectedHotel.set(null);
+    this.fitHotelsOnMap(hotels);
+  }
+
+  private fitHotelsOnMap(hotels: readonly Hotel[] = this.hotels) {
+    if (!this.map) {
       return;
     }
 
-    const bounds = this.createBoundsForView(hotels);
+    const bounds = createHotelBounds(hotels);
 
     if (!bounds) {
       return;
     }
 
-    map.fitBounds(bounds, this.mapBoundsPadding);
-  }
-
-  focusHotel(hotel: Hotel) {
-    this.closeHotelInfoWindow();
-    this.selectedHotel.set(null);
-    this.fitHotelsOnMap(this.map, [hotel]);
+    this.map.fitBounds(bounds, this.mapBoundsPadding);
   }
 
   openHotelInfoWindow(infoWindow: MapInfoWindow, marker: MapAdvancedMarker, hotel: Hotel) {
@@ -87,25 +86,5 @@ export class HotelMap {
 
   closeHotelDetail() {
     this.selectedHotel.set(null);
-  }
-
-  private createBoundsForView(hotels: readonly Hotel[]): google.maps.LatLngBounds | null {
-    if (hotels.length !== 1) {
-      return createHotelBounds(hotels);
-    }
-
-    const [hotel] = hotels;
-    const bounds = new google.maps.LatLngBounds();
-
-    bounds.extend({
-      lat: hotel.latitude - this.focusedHotelBoundsOffset,
-      lng: hotel.longitude - this.focusedHotelBoundsOffset,
-    });
-    bounds.extend({
-      lat: hotel.latitude + this.focusedHotelBoundsOffset,
-      lng: hotel.longitude + this.focusedHotelBoundsOffset,
-    });
-
-    return bounds;
   }
 }

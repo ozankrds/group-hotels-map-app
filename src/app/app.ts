@@ -18,10 +18,10 @@ export class App {
   @ViewChild(HotelMap) private hotelMap?: HotelMap;
 
   focusHotel(hotel: Hotel) {
-    this.hotelMap?.focusHotel(hotel);
+    this.hotelMap?.showHotelsOnMap([hotel]);
   }
 
   showDefaultView() {
-    this.hotelMap?.fitHotelsOnMap();
+    this.hotelMap?.showHotelsOnMap();
   }
 }

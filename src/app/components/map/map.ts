@@ -33,8 +33,6 @@ export class MapComponent implements OnInit {
   apiLoaded = signal(false);
   apiLoadError = signal<string | null>(null);
 
-  private map?: google.maps.Map;
-
   @ContentChild(TemplateRef) contentTemplate?: TemplateRef<unknown>;
 
   ngOnInit() {
@@ -64,7 +62,6 @@ export class MapComponent implements OnInit {
   }
 
   handleMapInitialized(map: google.maps.Map) {
-    this.map = map;
     this.mapReady.emit(map);
   }
 }
