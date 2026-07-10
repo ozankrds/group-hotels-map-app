@@ -1,0 +1,38 @@
+<app-map
+  [center]="center"
+  [mapId]="mapId"
+  [zoom]="zoom"
+  (mapReady)="handleMapReady($event)">
+
+  <ng-template>
+    <map-info-window
+      #hotelInfoWindow="mapInfoWindow"
+      [options]="hotelInfoWindowOptions"
+      (closeclick)="clearHotelInfoWindow()"
+    >
+      @if (infoWindowHotel(); as hotel) {
+        <app-hotel-info-window
+          [hotel]="hotel"
+          (details)="openHotelDetail(hotel)"
+          (closed)="closeHotelInfoWindow(hotelInfoWindow)"
+        >
+        </app-hotel-info-window>
+      }
+    </map-info-window>
+
+    @for (hotelMarker of hotelMarkers; track hotelMarker.id) {
+      <map-advanced-marker
+        #marker="mapAdvancedMarker"
+        [position]="hotelMarker.position"
+        [content]="hotelMarker.content"
+        [title]="hotelMarker.title"
+        [gmpClickable]="true"
+        (gmpClick)="openHotelInfoWindow(hotelInfoWindow, marker, hotelMarker.hotel)"
+      ></map-advanced-marker>
+    }
+
+    @if (selectedHotel(); as hotel) {
+      <app-hotel-detail [hotel]="hotel" (closed)="closeHotelDetail()"> </app-hotel-detail>
+    }
+  </ng-template>
+</app-map>

@@ -1,37 +1,17 @@
 @if (apiLoaded()) {
   <google-map
+    #googleMap="googleMap"
     height="100%"
     width="100%"
-    [center]="center"
-    [mapId]="mapId"
-    [zoom]="zoom"
-    (mapInitialized)="fitHotelsOnMap($event)"
+    [center]="center()"
+    [mapId]="mapId()"
+    [options]="options()"
+    [zoom]="zoom()"
+    (mapInitialized)="handleMapInitialized($event)"
     (authFailure)="handleMapsAuthFailure()"
   >
-    @for (hotelMarker of hotelMarkers; track hotelMarker.id) {
-      <map-advanced-marker
-        #marker="mapAdvancedMarker"
-        [position]="hotelMarker.position"
-        [content]="hotelMarker.content"
-        [title]="hotelMarker.title"
-        [gmpClickable]="true"
-        (gmpClick)="openHotelInfoWindow(marker, hotelMarker.hotel)"
-      ></map-advanced-marker>
-    }
-
-    <map-info-window [options]="hotelInfoWindowOptions" (closeclick)="closeHotelInfoWindow()">
-      @if (infoWindowHotel(); as hotel) {
-        <app-hotel-info-window
-          [hotel]="hotel"
-          (details)="openHotelDetail(hotel)"
-          (closed)="closeHotelInfoWindow()"
-        >
-        </app-hotel-info-window>
-      }
-    </map-info-window>
-
-    @if (selectedHotel(); as hotel) {
-      <app-hotel-detail [hotel]="hotel" (closed)="closeHotelDetail()"> </app-hotel-detail>
+    @if (contentTemplate; as template) {
+      <app-map-content-outlet [googleMap]="googleMap" [content]="template"></app-map-content-outlet>
     }
   </google-map>
 } @else if (apiLoadError()) {

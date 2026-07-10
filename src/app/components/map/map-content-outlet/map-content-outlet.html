@@ -1,0 +1,6 @@
+@if (content(); as template) {
+  <ng-container
+    [ngTemplateOutlet]="template"
+    [ngTemplateOutletInjector]="contentInjector()"
+  ></ng-container>
+}
