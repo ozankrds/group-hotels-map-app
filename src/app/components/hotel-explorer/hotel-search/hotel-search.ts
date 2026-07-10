@@ -1,6 +1,6 @@
 import { Component, computed, inject, input, output, signal } from '@angular/core';
-import { Hotel } from '../../models/hotel.model';
-import { HotelSearchService } from '../../services/hotel-search.service';
+import { Hotel } from '../../../models/hotel.model';
+import { HotelSearchService } from '../../../services/hotel-search.service';
 
 @Component({
   selector: 'app-hotel-search',

@@ -1,13 +1,13 @@
 import { Component, inject, signal } from '@angular/core';
 import { GoogleMapsModule, MapAdvancedMarker, MapInfoWindow } from '@angular/google-maps';
-import { environment } from '../../environments/environment.development';
-import { Hotel } from '../../models/hotel.model';
-import { HotelService } from '../../services/hotel.service';
-import { createHotelMarkers } from '../../shared/utils/hotel-marker.util';
-import { createHotelBounds } from '../../shared/utils/map-bounds.util';
-import { HotelDetail } from '../hotel-detail/hotel-detail';
-import { HotelInfoWindow } from '../hotel-info-window/hotel-info-window';
-import { MapComponent } from '../map/map';
+import { environment } from '../../../environments/environment.development';
+import { Hotel } from '../../../models/hotel.model';
+import { HotelService } from '../../../services/hotel.service';
+import { createHotelMarkers } from '../../../shared/utils/hotel-marker.util';
+import { createHotelBounds } from '../../../shared/utils/map-bounds.util';
+import { MapComponent } from '../../map/map';
+import { HotelDetail } from './hotel-detail/hotel-detail';
+import { HotelInfoWindow } from './hotel-info-window/hotel-info-window';
 
 @Component({
   selector: 'app-hotel-map',
