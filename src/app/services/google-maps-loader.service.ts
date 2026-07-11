@@ -9,11 +9,15 @@ export class GoogleMapsLoaderService {
   constructor() {
     setOptions({
       key: environment.googleMapsApiKey,
-      v: 'weekly',
+      v: 'beta',
     });
   }
 
-  async load(): Promise<void> {
+  async load2d(): Promise<void> {
     await importLibrary('maps');
+  }
+
+  async load3d(): Promise<google.maps.Maps3DLibrary> {
+    return await importLibrary('maps3d');
   }
 }

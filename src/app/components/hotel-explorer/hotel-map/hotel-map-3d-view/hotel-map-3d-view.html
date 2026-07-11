@@ -1,0 +1,24 @@
+<app-map-3d [center]="center()" [mapId]="mapId()" (mapReady)="handleMapReady($event)">
+  <ng-template>
+    <gmp-popover #hotelPopover id="hotelPopover">
+      @if (popoverHotel(); as hotel) {
+        <app-hotel-info-window
+          [hotel]="hotel"
+          (details)="openHotelDetail(hotel, hotelPopover)"
+          (closed)="closePopover(hotelPopover)"
+        >
+        </app-hotel-info-window>
+      }
+    </gmp-popover>
+
+    @for (markerView of points(); track markerView.id) {
+      <gmp-marker-3d-interactive
+        altitude-mode="CLAMP_TO_GROUND"
+        collision-behavior="REQUIRED"
+        [attr.position]="markerView.position3d"
+        [attr.title]="markerView.title"
+        (gmpClick)="openHotelPopover(hotelPopover, $event, markerView.hotel)"
+      ></gmp-marker-3d-interactive>
+    }
+  </ng-template>
+</app-map-3d>

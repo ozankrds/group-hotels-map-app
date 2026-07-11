@@ -1,0 +1,22 @@
+@if (apiLoaded()) {
+  <gmp-map-3d
+    #map3d
+    class="map-3d"
+    [attr.center]="centerAttribute()"
+    [attr.heading]="heading()"
+    [attr.map-id]="mapId() ?? null"
+    [attr.mode]="mode()"
+    [attr.range]="range()"
+    [attr.tilt]="tilt()"
+  >
+    @if (contentTemplate; as template) {
+      <ng-container [ngTemplateOutlet]="template"></ng-container>
+    }
+  </gmp-map-3d>
+} @else if (apiLoadError()) {
+  <div class="loading-message">
+    {{ apiLoadError() }}
+  </div>
+} @else {
+  <div class="loading-message">3D harita yukleniyor, lutfen bekleyin...</div>
+}

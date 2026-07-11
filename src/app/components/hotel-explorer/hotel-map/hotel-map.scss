@@ -4,7 +4,61 @@
   min-height: 0;
 }
 
-app-map {
+.hotel-map-shell {
+  position: relative;
   display: block;
   height: 100%;
+  min-height: 0;
+}
+
+.hotel-map-canvas,
+app-hotel-map-2d-view,
+app-hotel-map-3d-view {
+  display: block;
+  height: 100%;
+  min-height: 0;
+}
+
+.hotel-map-toolbar {
+  position: absolute;
+  z-index: 10;
+  top: 12px;
+  left: 12px;
+  display: inline-flex;
+  overflow: hidden;
+  border: 1px solid rgba(15, 23, 42, 0.14);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.16);
+}
+
+.hotel-map-toolbar__button {
+  min-width: 48px;
+  min-height: 38px;
+  border: 0;
+  border-right: 1px solid rgba(15, 23, 42, 0.12);
+  padding: 0 12px;
+  background: #fff;
+  color: #334155;
+  cursor: pointer;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.hotel-map-toolbar__button:last-child {
+  border-right: 0;
+}
+
+.hotel-map-toolbar__button:hover {
+  background: #f8fafc;
+}
+
+.hotel-map-toolbar__button--active {
+  background: #1a73e8;
+  color: #fff;
+}
+
+.hotel-map-toolbar__button--active:hover {
+  background: #1a73e8;
 }

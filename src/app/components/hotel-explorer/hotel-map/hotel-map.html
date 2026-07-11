@@ -1,38 +1,47 @@
-<app-map
-  [center]="center"
-  [mapId]="mapId"
-  [zoom]="zoom"
-  (mapReady)="handleMapReady($event)">
-
-  <ng-template>
-    <map-info-window
-      #hotelInfoWindow="mapInfoWindow"
-      [options]="hotelInfoWindowOptions"
-      (closeclick)="clearHotelInfoWindow()"
+<div class="hotel-map-shell">
+  <div class="hotel-map-toolbar" aria-label="Map view selector">
+    <button
+      type="button"
+      class="hotel-map-toolbar__button"
+      [class.hotel-map-toolbar__button--active]="viewMode() === '2d'"
+      [attr.aria-pressed]="viewMode() === '2d'"
+      (click)="setViewMode('2d')"
     >
-      @if (infoWindowHotel(); as hotel) {
-        <app-hotel-info-window
-          [hotel]="hotel"
-          (details)="openHotelDetail(hotel)"
-          (closed)="closeHotelInfoWindow(hotelInfoWindow)"
-        >
-        </app-hotel-info-window>
-      }
-    </map-info-window>
+      2D
+    </button>
+    <button
+      type="button"
+      class="hotel-map-toolbar__button"
+      [class.hotel-map-toolbar__button--active]="viewMode() === '3d'"
+      [attr.aria-pressed]="viewMode() === '3d'"
+      (click)="setViewMode('3d')"
+    >
+      3D
+    </button>
+  </div>
 
-    @for (hotelMarker of hotelMarkers; track hotelMarker.id) {
-      <map-advanced-marker
-        #marker="mapAdvancedMarker"
-        [position]="hotelMarker.position"
-        [content]="hotelMarker.content"
-        [title]="hotelMarker.title"
-        [gmpClickable]="true"
-        (gmpClick)="openHotelInfoWindow(hotelInfoWindow, marker, hotelMarker.hotel)"
-      ></map-advanced-marker>
+  <div class="hotel-map-canvas">
+    @if (viewMode() === '2d') {
+      <app-hotel-map-2d-view
+        [center]="center"
+        [zoom]="zoom"
+        [mapId]="mapId"
+        [focusHotels]="focusHotels()"
+        [points]="hotelMapPoints"
+        (details)="openHotelDetail($event)"
+      ></app-hotel-map-2d-view>
+    } @else {
+      <app-hotel-map-3d-view
+        [center]="center"
+        [mapId]="mapId"
+        [focusHotels]="focusHotels()"
+        [points]="hotelMapPoints"
+        (details)="openHotelDetail($event)"
+      ></app-hotel-map-3d-view>
     }
+  </div>
 
-    @if (selectedHotel(); as hotel) {
-      <app-hotel-detail [hotel]="hotel" (closed)="closeHotelDetail()"> </app-hotel-detail>
-    }
-  </ng-template>
-</app-map>
+  @if (selectedHotel(); as hotel) {
+    <app-hotel-detail [hotel]="hotel" (closed)="closeHotelDetail()"> </app-hotel-detail>
+  }
+</div>

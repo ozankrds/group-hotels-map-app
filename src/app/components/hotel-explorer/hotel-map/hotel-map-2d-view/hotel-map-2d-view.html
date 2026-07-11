@@ -1,0 +1,34 @@
+<app-map-2d
+  [center]="center()"
+  [mapId]="mapId()"
+  [zoom]="zoom()"
+  (mapReady)="handleMapReady($event)"
+>
+  <ng-template>
+    <map-info-window
+      #hotelInfoWindow="mapInfoWindow"
+      [options]="{ headerDisabled: true, maxWidth: 260 }"
+      (closeclick)="clearHotelInfoWindow()"
+    >
+      @if (infoWindowHotel(); as hotel) {
+        <app-hotel-info-window
+          [hotel]="hotel"
+          (details)="openHotelDetail(hotel)"
+          (closed)="closeHotelInfoWindow(hotelInfoWindow)"
+        >
+        </app-hotel-info-window>
+      }
+    </map-info-window>
+
+    @for (markerView of points(); track markerView.id) {
+      <map-advanced-marker
+        #marker="mapAdvancedMarker"
+        [position]="markerView.position2d"
+        [content]="markerView.content"
+        [title]="markerView.title"
+        [gmpClickable]="true"
+        (gmpClick)="openHotelInfoWindow(hotelInfoWindow, marker, markerView.hotel)"
+      ></map-advanced-marker>
+    }
+  </ng-template>
+</app-map-2d>

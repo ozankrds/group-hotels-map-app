@@ -14,12 +14,12 @@ import { GoogleMapsLoaderService } from '../../services/google-maps-loader.servi
 import { MapContentOutlet } from './map-content-outlet/map-content-outlet';
 
 @Component({
-  selector: 'app-map',
+  selector: 'app-map-2d',
   imports: [GoogleMapsModule, CommonModule, MapContentOutlet],
-  templateUrl: './map.html',
-  styleUrl: './map.scss',
+  templateUrl: './map-2d.html',
+  styleUrl: './map-2d.scss',
 })
-export class MapComponent implements OnInit {
+export class Map2dComponent implements OnInit {
   private readonly googleMapsLoader = inject(GoogleMapsLoaderService);
 
   readonly center = input<google.maps.LatLngLiteral>({ lat: 39.92077, lng: 32.85411 });
@@ -43,7 +43,7 @@ export class MapComponent implements OnInit {
     this.apiLoadError.set(null);
 
     try {
-      await this.googleMapsLoader.load();
+      await this.googleMapsLoader.load2d();
       this.apiLoaded.set(true);
     } catch (error) {
       console.error('Google Maps script could not be loaded', error);

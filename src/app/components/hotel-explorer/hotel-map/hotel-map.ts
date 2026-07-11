@@ -1,86 +1,42 @@
 import { Component, inject, signal } from '@angular/core';
-import { GoogleMapsModule, MapAdvancedMarker, MapInfoWindow } from '@angular/google-maps';
 import { environment } from '../../../environments/environment.development';
 import { Hotel } from '../../../models/hotel.model';
 import { HotelService } from '../../../services/hotel.service';
-import { createHotelMarkers } from '../../../shared/utils/hotel-marker.util';
-import { createHotelBounds } from '../../../shared/utils/map-bounds.util';
-import { MapComponent } from '../../map/map';
+import { createHotelMapPoints } from '../../../shared/utils/hotel-marker.util';
+import { HotelMap2dView } from './hotel-map-2d-view/hotel-map-2d-view';
+import { HotelMap3dView } from './hotel-map-3d-view/hotel-map-3d-view';
 import { HotelDetail } from './hotel-detail/hotel-detail';
-import { HotelInfoWindow } from './hotel-info-window/hotel-info-window';
 
 @Component({
   selector: 'app-hotel-map',
-  imports: [GoogleMapsModule, MapComponent, HotelDetail, HotelInfoWindow],
+  imports: [HotelMap2dView, HotelMap3dView, HotelDetail],
   templateUrl: './hotel-map.html',
   styleUrl: './hotel-map.scss',
 })
 export class HotelMap {
   private readonly hotelService = inject(HotelService);
-  private readonly mapBoundsPadding = 48;
 
   readonly hotels = this.hotelService.getHotels();
-  readonly hotelMarkers = createHotelMarkers(this.hotels);
+  readonly hotelMapPoints = createHotelMapPoints(this.hotels);
 
   readonly center: google.maps.LatLngLiteral = { lat: 39.92077, lng: 32.85411 };
   readonly zoom = 6;
   readonly mapId = environment.googleMapsMapId;
 
-  readonly hotelInfoWindowOptions: google.maps.InfoWindowOptions = {
-    headerDisabled: true,
-    maxWidth: 260,
-  };
-
-  infoWindowHotel = signal<Hotel | null>(null);
+  readonly focusHotels = signal<readonly Hotel[]>(this.hotels);
   selectedHotel = signal<Hotel | null>(null);
+  viewMode = signal<HotelMapViewMode>('2d');
 
-  private map?: google.maps.Map;
-  private activeHotelInfoWindow?: MapInfoWindow;
-
-  handleMapReady(map: google.maps.Map) {
-    this.map = map;
-    this.fitHotelsOnMap();
+  setViewMode(viewMode: HotelMapViewMode) {
+    this.viewMode.set(viewMode);
   }
 
   showHotelsOnMap(hotels: readonly Hotel[] = this.hotels) {
-    this.closeHotelInfoWindow();
     this.selectedHotel.set(null);
-    this.fitHotelsOnMap(hotels);
-  }
-
-  private fitHotelsOnMap(hotels: readonly Hotel[] = this.hotels) {
-    if (!this.map) {
-      return;
-    }
-
-    const bounds = createHotelBounds(hotels);
-
-    if (!bounds) {
-      return;
-    }
-
-    this.map.fitBounds(bounds, this.mapBoundsPadding);
-  }
-
-  openHotelInfoWindow(infoWindow: MapInfoWindow, marker: MapAdvancedMarker, hotel: Hotel) {
-    this.activeHotelInfoWindow = infoWindow;
-    infoWindow.open(marker);
-    this.infoWindowHotel.set(hotel);
-  }
-
-  closeHotelInfoWindow(infoWindow = this.activeHotelInfoWindow) {
-    infoWindow?.close();
-    this.activeHotelInfoWindow = undefined;
-    this.infoWindowHotel.set(null);
-  }
-
-  clearHotelInfoWindow() {
-    this.activeHotelInfoWindow = undefined;
-    this.infoWindowHotel.set(null);
+    this.focusHotels.set(hotels);
   }
 
   openHotelDetail(hotel: Hotel) {
-    this.closeHotelInfoWindow();
     this.selectedHotel.set(hotel);
   }
 
@@ -88,3 +44,5 @@ export class HotelMap {
     this.selectedHotel.set(null);
   }
 }
+
+type HotelMapViewMode = '2d' | '3d';
