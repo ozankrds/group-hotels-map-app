@@ -14,7 +14,7 @@
         <app-hotel-info-window
           [hotel]="hotel"
           (details)="openHotelDetail(hotel)"
-          (closed)="closeHotelInfoWindow(hotelInfoWindow)"
+          (closed)="closeHotelInfoWindow()"
         >
         </app-hotel-info-window>
       }
@@ -27,7 +27,7 @@
         [content]="markerView.content"
         [title]="markerView.title"
         [gmpClickable]="true"
-        (gmpClick)="openHotelInfoWindow(hotelInfoWindow, marker, markerView.hotel)"
+        (gmpClick)="openHotelInfoWindow(marker, markerView.hotel)"
       ></map-advanced-marker>
     }
   </ng-template>

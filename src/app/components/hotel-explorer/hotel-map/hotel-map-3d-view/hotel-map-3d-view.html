@@ -1,11 +1,15 @@
-<app-map-3d [center]="center()" [mapId]="mapId()" (mapReady)="handleMapReady($event)">
+<app-map-3d
+  [center]="center()"
+  [mapId]="mapId()"
+  (mapReady)="handleMapReady($event)"
+>
   <ng-template>
     <gmp-popover #hotelPopover id="hotelPopover">
       @if (popoverHotel(); as hotel) {
         <app-hotel-info-window
           [hotel]="hotel"
-          (details)="openHotelDetail(hotel, hotelPopover)"
-          (closed)="closePopover(hotelPopover)"
+          (details)="openHotelDetail(hotel)"
+          (closed)="closePopover()"
         >
         </app-hotel-info-window>
       }
@@ -17,7 +21,7 @@
         collision-behavior="REQUIRED"
         [attr.position]="markerView.position3d"
         [attr.title]="markerView.title"
-        (gmpClick)="openHotelPopover(hotelPopover, $event, markerView.hotel)"
+        (gmpClick)="openHotelPopover($event, markerView.hotel)"
       ></gmp-marker-3d-interactive>
     }
   </ng-template>
