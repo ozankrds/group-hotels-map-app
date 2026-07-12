@@ -1,7 +1,7 @@
 import { Component, effect, input, output, signal, viewChild } from '@angular/core';
 import { GoogleMapsModule, MapAdvancedMarker, MapInfoWindow } from '@angular/google-maps';
 import { Hotel } from '../../../../models/hotel.model';
-import { HotelMapPoint } from '../../../../shared/utils/hotel-marker.util';
+import { HotelMarker } from '../../../../shared/utils/hotel-marker.util';
 import { createHotelBounds } from '../../../../shared/utils/map-bounds.util';
 import { Map2dComponent } from '../../../map-2d/map-2d';
 import { HotelInfoWindow } from '../hotel-info-window/hotel-info-window';
@@ -18,24 +18,24 @@ export class HotelMap2dView {
   readonly center = input.required<google.maps.LatLngLiteral>();
   readonly zoom = input.required<number>();
   readonly mapId = input<string | undefined>();
-  readonly focusHotels = input.required<readonly Hotel[]>();
-  readonly points = input.required<readonly HotelMapPoint[]>();
+  readonly focusedHotels = input.required<readonly Hotel[]>();
+  readonly markers = input.required<readonly HotelMarker[]>();
 
-  readonly details = output<Hotel>();
+  readonly hotelDetailsRequested = output<Hotel>();
 
   readonly infoWindowHotel = signal<Hotel | null>(null);
 
   private map = signal<google.maps.Map | null>(null);
   private readonly hotelInfoWindow = viewChild<MapInfoWindow>('hotelInfoWindow');
 
-  private readonly focusHotelsEffect = effect(() => {
+  private readonly focusedHotelsEffect = effect(() => {
     this.closeHotelInfoWindow();
-    this.fitHotelsOnMap(this.focusHotels());
+    this.fitHotelsOnMap(this.focusedHotels());
   });
 
   handleMapReady(map: google.maps.Map) {
     this.map.set(map);
-    this.fitHotelsOnMap(this.focusHotels());
+    this.fitHotelsOnMap(this.focusedHotels());
   }
 
   openHotelInfoWindow(marker: MapAdvancedMarker, hotel: Hotel) {
@@ -52,9 +52,9 @@ export class HotelMap2dView {
     this.infoWindowHotel.set(null);
   }
 
-  openHotelDetail(hotel: Hotel) {
+  requestHotelDetails(hotel: Hotel) {
     this.closeHotelInfoWindow();
-    this.details.emit(hotel);
+    this.hotelDetailsRequested.emit(hotel);
   }
 
   private fitHotelsOnMap(hotels: readonly Hotel[]) {

@@ -2,7 +2,7 @@ import { Hotel } from '../../models/hotel.model';
 
 const hotelMarkerIconUrl = '/building.png';
 
-export interface HotelMapPoint {
+export interface HotelMarker {
   id: number;
   hotel: Hotel;
   title: string;
@@ -11,7 +11,7 @@ export interface HotelMapPoint {
   content: HTMLElement;
 }
 
-export function createHotelMapPoints(hotels: readonly Hotel[]): readonly HotelMapPoint[] {
+export function createHotelMarkers(hotels: readonly Hotel[]): readonly HotelMarker[] {
   return hotels.map((hotel) => ({
     id: hotel.id,
     hotel,

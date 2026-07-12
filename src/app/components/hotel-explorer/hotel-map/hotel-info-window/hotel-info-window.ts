@@ -9,7 +9,7 @@ import { Hotel } from '../../../../models/hotel.model';
 })
 export class HotelInfoWindow {
   hotel = input.required<Hotel>();
-  details = output<void>();
+  detailsRequested = output<void>();
   closed = output<void>();
 
   readonly rows = computed(() => {
@@ -18,8 +18,8 @@ export class HotelInfoWindow {
     return [{ label: 'Rating', value: hotel.rating }];
   });
 
-  seeDetails() {
-    this.details.emit();
+  requestDetails() {
+    this.detailsRequested.emit();
   }
 
   close() {

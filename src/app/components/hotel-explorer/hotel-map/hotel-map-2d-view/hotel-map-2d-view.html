@@ -13,14 +13,14 @@
       @if (infoWindowHotel(); as hotel) {
         <app-hotel-info-window
           [hotel]="hotel"
-          (details)="openHotelDetail(hotel)"
+          (detailsRequested)="requestHotelDetails(hotel)"
           (closed)="closeHotelInfoWindow()"
         >
         </app-hotel-info-window>
       }
     </map-info-window>
 
-    @for (markerView of points(); track markerView.id) {
+    @for (markerView of markers(); track markerView.id) {
       <map-advanced-marker
         #marker="mapAdvancedMarker"
         [position]="markerView.position2d"

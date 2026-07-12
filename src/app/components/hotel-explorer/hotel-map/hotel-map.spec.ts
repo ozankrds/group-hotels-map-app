@@ -19,4 +19,13 @@ describe('HotelMap', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should refresh focused hotels when showing the default view', () => {
+    const previousFocusedHotels = component.focusedHotels();
+
+    component.showHotelsOnMap();
+
+    expect(component.focusedHotels()).not.toBe(previousFocusedHotels);
+    expect(component.focusedHotels()).toEqual(component.hotels);
+  });
 });

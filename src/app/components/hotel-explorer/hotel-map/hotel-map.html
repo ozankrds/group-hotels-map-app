@@ -26,17 +26,17 @@
         [center]="center"
         [zoom]="zoom"
         [mapId]="mapId"
-        [focusHotels]="focusHotels()"
-        [points]="hotelMapPoints"
-        (details)="openHotelDetail($event)"
+        [focusedHotels]="focusedHotels()"
+        [markers]="hotelMapPoints"
+        (hotelDetailsRequested)="openHotelDetail($event)"
       ></app-hotel-map-2d-view>
     } @else {
       <app-hotel-map-3d-view
         [center]="center"
         [mapId]="mapId"
-        [focusHotels]="focusHotels()"
-        [points]="hotelMapPoints"
-        (details)="openHotelDetail($event)"
+        [focusedHotels]="focusedHotels()"
+        [markers]="hotelMapPoints"
+        (hotelDetailsRequested)="openHotelDetail($event)"
       ></app-hotel-map-3d-view>
     }
   </div>
