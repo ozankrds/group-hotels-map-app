@@ -1,5 +1,4 @@
 import { Component, inject, signal } from '@angular/core';
-import { environment } from '../../../environments/environment.development';
 import { Hotel } from '../../../models/hotel.model';
 import { HotelService } from '../../../services/hotel.service';
 import { createHotelMarkers } from '../../../shared/utils/hotel-marker.util';
@@ -18,10 +17,6 @@ export class HotelMap {
 
   readonly hotels = this.hotelService.getHotels();
   readonly hotelMapPoints = createHotelMarkers(this.hotels);
-
-  readonly center: google.maps.LatLngLiteral = { lat: 39.92077, lng: 32.85411 };
-  readonly zoom = 6;
-  readonly mapId = environment.googleMapsMapId;
 
   readonly focusedHotels = signal<readonly Hotel[]>(this.hotels);
   selectedHotel = signal<Hotel | null>(null);

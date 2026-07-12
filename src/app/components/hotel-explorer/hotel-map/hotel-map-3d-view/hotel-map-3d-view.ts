@@ -27,15 +27,13 @@ type PopoverElement = google.maps.maps3d.PopoverElement;
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class HotelMap3dView {
-  readonly center = input.required<google.maps.LatLngLiteral>();
   readonly focusedHotels = input.required<readonly Hotel[]>();
-  readonly mapId = input<string | undefined>();
   readonly markers = input.required<readonly HotelMarker[]>();
 
   readonly hotelDetailsRequested = output<Hotel>();
 
   readonly popoverHotel = signal<Hotel | null>(null);
-  readonly camera = computed(() => createHotelMap3dCamera(this.focusedHotels(), this.center()));
+  readonly camera = computed(() => createHotelMap3dCamera(this.focusedHotels()));
 
   private readonly hotelPopover = viewChild<ElementRef<PopoverElement>>('hotelPopover');
 

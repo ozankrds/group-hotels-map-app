@@ -1,18 +1,19 @@
 import { Hotel } from '../../models/hotel.model';
+import { Map3dCamera } from '../../models/map-3d-camera.model';
 
 const singleHotelBoundsOffset = 0.01;
 
 const earthMetersPerLatitudeDegree = 111_320;
-const default3dRange = 2_500_000;
+const maximum3dRange = 2_500_000;
 const minimum3dRange = 3_500;
 const map3dRangePadding = 1.4;
-
-export type HotelMap3dCamera = {
-  center: google.maps.LatLngAltitudeLiteral;
-  heading: number;
-  range: number;
-  tilt: number;
+const worldBoundsLiteral: HotelBoundsLiteral = {
+  east: 179.999,
+  north: 85,
+  south: -85,
+  west: -179.999,
 };
+const world3dRange = 20_000_000;
 
 type HotelBoundsLiteral = {
   east: number;
@@ -21,9 +22,9 @@ type HotelBoundsLiteral = {
   west: number;
 };
 
-export function createHotelBounds(hotels: readonly Hotel[]): google.maps.LatLngBounds | null {
+export function createHotelBounds(hotels: readonly Hotel[]): google.maps.LatLngBounds {
   if (hotels.length === 0) {
-    return null;
+    return createLatLngBounds(worldBoundsLiteral);
   }
 
   const bounds = new google.maps.LatLngBounds();
@@ -53,14 +54,11 @@ export function createHotelBounds(hotels: readonly Hotel[]): google.maps.LatLngB
   return bounds;
 }
 
-export function createHotelMap3dCamera(
-  hotels: readonly Hotel[],
-  fallbackCenter: google.maps.LatLngLiteral,
-): HotelMap3dCamera {
+export function createHotelMap3dCamera(hotels: readonly Hotel[]): Map3dCamera {
   const bounds = createHotelBoundsLiteral(hotels);
 
   if (!bounds) {
-    return createDefaultMap3dCamera(fallbackCenter);
+    return createWorldMap3dCamera();
   }
 
   const center = {
@@ -77,8 +75,8 @@ export function createHotelMap3dCamera(
   const diagonalSpanInMeters = Math.hypot(latSpanInMeters, lngSpanInMeters);
   const range = Math.max(minimum3dRange, diagonalSpanInMeters * map3dRangePadding);
 
-  if (range > default3dRange) {
-    return createDefaultMap3dCamera(fallbackCenter);
+  if (range > maximum3dRange) {
+    return createWorldMap3dCamera();
   }
 
   return {
@@ -89,12 +87,21 @@ export function createHotelMap3dCamera(
   };
 }
 
-function createDefaultMap3dCamera(center: google.maps.LatLngLiteral): HotelMap3dCamera {
+function createLatLngBounds(bounds: HotelBoundsLiteral): google.maps.LatLngBounds {
+  const latLngBounds = new google.maps.LatLngBounds();
+
+  latLngBounds.extend({ lat: bounds.south, lng: bounds.west });
+  latLngBounds.extend({ lat: bounds.north, lng: bounds.east });
+
+  return latLngBounds;
+}
+
+function createWorldMap3dCamera(): Map3dCamera {
   return {
-    center: { ...center, altitude: 0 },
+    center: { lat: 0, lng: 0, altitude: 0 },
     heading: 0,
-    range: default3dRange,
-    tilt: 50,
+    range: world3dRange,
+    tilt: 0,
   };
 }
 

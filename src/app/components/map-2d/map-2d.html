@@ -3,10 +3,8 @@
     #googleMap="googleMap"
     height="100%"
     width="100%"
-    [center]="center()"
-    [mapId]="mapId()"
+    [mapId]="mapId"
     [options]="options()"
-    [zoom]="zoom()"
     (mapInitialized)="handleMapInitialized($event)"
     (authFailure)="handleMapsAuthFailure()"
   >

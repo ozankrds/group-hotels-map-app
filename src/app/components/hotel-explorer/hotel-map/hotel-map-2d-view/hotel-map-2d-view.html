@@ -1,9 +1,4 @@
-<app-map-2d
-  [center]="center()"
-  [mapId]="mapId()"
-  [zoom]="zoom()"
-  (mapReady)="handleMapReady($event)"
->
+<app-map-2d (mapReady)="handleMapReady($event)">
   <ng-template>
     <map-info-window
       #hotelInfoWindow="mapInfoWindow"

@@ -13,11 +13,6 @@ import { HotelInfoWindow } from '../hotel-info-window/hotel-info-window';
   styleUrl: './hotel-map-2d-view.scss',
 })
 export class HotelMap2dView {
-  private readonly mapBoundsPadding = 48;
-
-  readonly center = input.required<google.maps.LatLngLiteral>();
-  readonly zoom = input.required<number>();
-  readonly mapId = input<string | undefined>();
   readonly focusedHotels = input.required<readonly Hotel[]>();
   readonly markers = input.required<readonly HotelMarker[]>();
 
@@ -65,11 +60,6 @@ export class HotelMap2dView {
     }
 
     const bounds = createHotelBounds(hotels);
-
-    if (!bounds) {
-      return;
-    }
-
-    map.fitBounds(bounds, this.mapBoundsPadding);
+    map.fitBounds(bounds, 48);
   }
 }

@@ -1,11 +1,4 @@
-<app-map-3d
-  [center]="camera().center"
-  [centerAltitude]="camera().center.altitude ?? 0"
-  [heading]="camera().heading"
-  [mapId]="mapId()"
-  [range]="camera().range"
-  [tilt]="camera().tilt"
->
+<app-map-3d [camera]="camera()">
   <ng-template>
     <gmp-popover #hotelPopover id="hotelPopover">
       @if (popoverHotel(); as hotel) {

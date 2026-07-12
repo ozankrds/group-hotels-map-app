@@ -10,6 +10,7 @@ import {
   signal,
 } from '@angular/core';
 import { GoogleMapsModule } from '@angular/google-maps';
+import { environment } from '../../environments/environment.development';
 import { GoogleMapsLoaderService } from '../../services/google-maps-loader.service';
 import { MapContentOutlet } from './map-content-outlet/map-content-outlet';
 
@@ -22,10 +23,8 @@ import { MapContentOutlet } from './map-content-outlet/map-content-outlet';
 export class Map2dComponent implements OnInit {
   private readonly googleMapsLoader = inject(GoogleMapsLoaderService);
 
-  readonly center = input<google.maps.LatLngLiteral>({ lat: 39.92077, lng: 32.85411 });
-  readonly zoom = input(6);
-  readonly mapId = input<string | undefined>();
   readonly options = input<google.maps.MapOptions>({});
+  readonly mapId = environment.googleMapsMapId;
 
   readonly mapReady = output<google.maps.Map>();
   readonly loadError = output<string>();

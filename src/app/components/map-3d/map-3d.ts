@@ -15,6 +15,8 @@ import {
   signal,
 } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
+import { environment } from '../../environments/environment.development';
+import { Map3dCamera } from '../../models/map-3d-camera.model';
 import { GoogleMapsLoaderService } from '../../services/google-maps-loader.service';
 
 @Component({
@@ -27,13 +29,9 @@ import { GoogleMapsLoaderService } from '../../services/google-maps-loader.servi
 export class Map3dComponent implements OnInit, OnDestroy {
   private readonly googleMapsLoader = inject(GoogleMapsLoaderService);
 
-  readonly center = input<google.maps.LatLngLiteral>({ lat: 39.92077, lng: 32.85411 });
-  readonly centerAltitude = input(1200);
-  readonly heading = input(0);
-  readonly mapId = input<string | undefined>();
+  readonly camera = input.required<Map3dCamera>();
   readonly mode = input<google.maps.maps3d.MapModeString>('HYBRID');
-  readonly range = input(2500000);
-  readonly tilt = input(55);
+  readonly mapId = environment.googleMapsMapId;
 
   readonly mapReady = output<google.maps.maps3d.Map3DElement>();
   readonly loadError = output<string>();
@@ -43,9 +41,9 @@ export class Map3dComponent implements OnInit, OnDestroy {
   readonly mapElement = signal<google.maps.maps3d.Map3DElement | null>(null);
 
   readonly centerAttribute = computed(() => {
-    const center = this.center();
+    const center = this.camera().center;
 
-    return `${center.lat},${center.lng},${this.centerAltitude()}`;
+    return `${center.lat},${center.lng},${center.altitude ?? 0}`;
   });
 
   @ContentChild(TemplateRef) contentTemplate?: TemplateRef<unknown>;
@@ -68,17 +66,19 @@ export class Map3dComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const center = this.center();
+    const camera = this.camera();
+    const center = camera.center;
+
     map.center = {
       lat: center.lat,
       lng: center.lng,
-      altitude: this.centerAltitude(),
+      altitude: center.altitude ?? 0,
     };
-    map.heading = this.heading();
-    map.mapId = this.mapId() ?? null;
+    map.heading = camera.heading;
+    map.mapId = this.mapId;
     map.mode = this.mode();
-    map.range = this.range();
-    map.tilt = this.tilt();
+    map.range = camera.range;
+    map.tilt = camera.tilt;
   });
 
   ngOnInit() {

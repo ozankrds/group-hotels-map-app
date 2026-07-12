@@ -23,17 +23,12 @@
   <div class="hotel-map-canvas">
     @if (viewMode() === '2d') {
       <app-hotel-map-2d-view
-        [center]="center"
-        [zoom]="zoom"
-        [mapId]="mapId"
         [focusedHotels]="focusedHotels()"
         [markers]="hotelMapPoints"
         (hotelDetailsRequested)="openHotelDetail($event)"
       ></app-hotel-map-2d-view>
     } @else {
       <app-hotel-map-3d-view
-        [center]="center"
-        [mapId]="mapId"
         [focusedHotels]="focusedHotels()"
         [markers]="hotelMapPoints"
         (hotelDetailsRequested)="openHotelDetail($event)"

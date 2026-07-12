@@ -3,11 +3,11 @@
     #map3d
     class="map-3d"
     [attr.center]="centerAttribute()"
-    [attr.heading]="heading()"
-    [attr.map-id]="mapId() ?? null"
+    [attr.heading]="camera().heading"
+    [attr.map-id]="mapId"
     [attr.mode]="mode()"
-    [attr.range]="range()"
-    [attr.tilt]="tilt()"
+    [attr.range]="camera().range"
+    [attr.tilt]="camera().tilt"
   >
     @if (contentTemplate; as template) {
       <ng-container [ngTemplateOutlet]="template"></ng-container>
