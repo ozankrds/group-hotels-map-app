@@ -1,32 +1,16 @@
-.hotel-detail-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 1000;
-  display: grid;
-  place-items: center;
-  padding: clamp(16px, 3vw, 42px);
-}
-
-.hotel-detail-overlay__backdrop {
-  position: absolute;
-  inset: 0;
-  border: 0;
-  background: rgba(0, 0, 0, 0.55);
-  cursor: pointer;
+:host {
+  display: block;
+  height: 100%;
 }
 
 .hotel-detail-panel {
-  position: relative;
-  z-index: 1;
   display: grid;
-  grid-template-rows: auto 1fr;
+  grid-template-rows: auto minmax(0, 1fr);
   width: 100%;
   height: 100%;
   min-height: 420px;
   overflow: hidden;
   background: white;
-  border-radius: 8px;
-  box-shadow: 0 24px 70px rgba(12, 18, 27, 0.35);
 }
 
 .top-bar {
@@ -171,10 +155,6 @@
 }
 
 @media (max-width: 760px) {
-  .hotel-detail-overlay {
-    padding: 14px;
-  }
-
   .hotel-detail-panel {
     min-height: 0;
   }

@@ -2,12 +2,7 @@
   <ng-template>
     <gmp-popover #hotelPopover id="hotelPopover">
       @if (popoverHotel(); as hotel) {
-        <app-hotel-info-window
-          [hotel]="hotel"
-          (detailsRequested)="requestHotelDetails(hotel)"
-          (closed)="closePopover()"
-        >
-        </app-hotel-info-window>
+        <app-hotel-info-window [hotel]="hotel" (closed)="closePopover()"> </app-hotel-info-window>
       }
     </gmp-popover>
 

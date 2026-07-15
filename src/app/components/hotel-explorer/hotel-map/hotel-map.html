@@ -25,18 +25,12 @@
       <app-hotel-map-2d-view
         [focusedHotels]="focusedHotels()"
         [markers]="hotelMapPoints"
-        (hotelDetailsRequested)="openHotelDetail($event)"
       ></app-hotel-map-2d-view>
     } @else {
       <app-hotel-map-3d-view
         [focusedHotels]="focusedHotels()"
         [markers]="hotelMapPoints"
-        (hotelDetailsRequested)="openHotelDetail($event)"
       ></app-hotel-map-3d-view>
     }
   </div>
-
-  @if (selectedHotel(); as hotel) {
-    <app-hotel-detail [hotel]="hotel" (closed)="closeHotelDetail()"> </app-hotel-detail>
-  }
 </div>

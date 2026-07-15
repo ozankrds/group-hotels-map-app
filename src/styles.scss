@@ -1,4 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+@import '@angular/material/prebuilt-themes/azure-blue.css';
 
 html,
 body {
@@ -70,4 +71,14 @@ app-root {
   object-fit: contain;
   pointer-events: none;
   transform: translateX(-50%);
+}
+
+.hotel-detail-dialog {
+  .mat-mdc-dialog-container {
+    --mdc-dialog-container-shape: 8px;
+  }
+
+  .mat-mdc-dialog-surface {
+    overflow: hidden;
+  }
 }

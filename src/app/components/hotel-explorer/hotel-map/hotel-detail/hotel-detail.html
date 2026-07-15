@@ -1,44 +1,37 @@
-<div class="hotel-detail-overlay" role="dialog" aria-modal="true">
-  <button
-    class="hotel-detail-overlay__backdrop"
-    type="button"
-    aria-label="Close details"
-    (click)="close()">
-  </button>
+<section class="hotel-detail-panel">
+  <div class="top-bar">
+    <h1 class="hotel-detail-title" id="hotel-name">{{ hotel().name }}</h1>
+    <button class="close-button" type="button" aria-label="Close details" (click)="close()">
+      X
+    </button>
+  </div>
 
-  <section class="hotel-detail-panel">
-    <div class="top-bar">
-      <h1 class="hotel-detail-title" id="hotel-name">{{ hotel().name }}</h1>
-      <button class="close-button" type="button" aria-label="Close details" (click)="close()">X</button>
-    </div>
+  <div class="hotel-details">
+    <img class="hotel-image" [src]="hotel().imageUrl" [alt]="hotel().name" />
 
-    <div class="hotel-details">
-      <img class="hotel-image" [src]="hotel().imageUrl" [alt]="hotel().name">
+    <div class="hotel-info">
+      <span class="hotel-segment">{{ hotel().segment }}</span>
+      <h2>{{ hotel().name }}</h2>
 
-      <div class="hotel-info">
-        <span class="hotel-segment">{{ hotel().segment }}</span>
-        <h2>{{ hotel().name }}</h2>
-
-        <dl class="hotel-stats">
-          <div>
-            <dt>Rating</dt>
-            <dd>{{ hotel().rating }}</dd>
-          </div>
-          <div>
-            <dt>Latitude</dt>
-            <dd>{{ hotel().latitude }}</dd>
-          </div>
-          <div>
-            <dt>Longitude</dt>
-            <dd>{{ hotel().longitude }}</dd>
-          </div>
-        </dl>
-
-        <div class="hotel-description">
-          <h3>Description</h3>
-          <p>{{ hotel().description }}</p>
+      <dl class="hotel-stats">
+        <div>
+          <dt>Rating</dt>
+          <dd>{{ hotel().rating }}</dd>
         </div>
+        <div>
+          <dt>Latitude</dt>
+          <dd>{{ hotel().latitude }}</dd>
+        </div>
+        <div>
+          <dt>Longitude</dt>
+          <dd>{{ hotel().longitude }}</dd>
+        </div>
+      </dl>
+
+      <div class="hotel-description">
+        <h3>Description</h3>
+        <p>{{ hotel().description }}</p>
       </div>
     </div>
-  </section>
-</div>
+  </div>
+</section>

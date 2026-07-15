@@ -5,7 +5,6 @@ import {
   computed,
   effect,
   input,
-  output,
   signal,
   viewChild,
 } from '@angular/core';
@@ -29,8 +28,6 @@ type PopoverElement = google.maps.maps3d.PopoverElement;
 export class HotelMap3dView {
   readonly focusedHotels = input.required<readonly Hotel[]>();
   readonly markers = input.required<readonly HotelMarker[]>();
-
-  readonly hotelDetailsRequested = output<Hotel>();
 
   readonly popoverHotel = signal<Hotel | null>(null);
   readonly camera = computed(() => createHotelMap3dCamera(this.focusedHotels()));
@@ -66,10 +63,5 @@ export class HotelMap3dView {
 
   private getHotelPopover() {
     return this.hotelPopover()?.nativeElement;
-  }
-
-  requestHotelDetails(hotel: Hotel) {
-    this.closePopover();
-    this.hotelDetailsRequested.emit(hotel);
   }
 }

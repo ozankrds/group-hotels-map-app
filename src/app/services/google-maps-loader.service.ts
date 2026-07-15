@@ -9,7 +9,7 @@ export class GoogleMapsLoaderService {
   constructor() {
     setOptions({
       key: environment.googleMapsApiKey,
-      v: 'beta',
+      v: 'weekly',
     });
   }
 

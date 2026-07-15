@@ -6,11 +6,7 @@
       (closeclick)="clearHotelInfoWindow()"
     >
       @if (infoWindowHotel(); as hotel) {
-        <app-hotel-info-window
-          [hotel]="hotel"
-          (detailsRequested)="requestHotelDetails(hotel)"
-          (closed)="closeHotelInfoWindow()"
-        >
+        <app-hotel-info-window [hotel]="hotel" (closed)="closeHotelInfoWindow()">
         </app-hotel-info-window>
       }
     </map-info-window>

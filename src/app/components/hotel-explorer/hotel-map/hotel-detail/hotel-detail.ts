@@ -1,4 +1,5 @@
-import { Component, input, output } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Hotel } from '../../../../models/hotel.model';
 
 @Component({
@@ -8,10 +9,11 @@ import { Hotel } from '../../../../models/hotel.model';
   styleUrl: './hotel-detail.scss',
 })
 export class HotelDetail {
-  hotel = input.required<Hotel>();
-  closed = output<void>();
+  private readonly dialogRef = inject(MatDialogRef<HotelDetail>);
+
+  readonly hotel = signal(inject<Hotel>(MAT_DIALOG_DATA));
 
   close() {
-    this.closed.emit();
+    this.dialogRef.close();
   }
 }
