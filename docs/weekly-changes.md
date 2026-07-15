@@ -27,3 +27,4 @@ What changed:
 - `HotelDetail` now receives the hotel through `MAT_DIALOG_DATA` and closes through `MatDialogRef`.
 - The custom detail overlay wrapper was removed because Angular Material now owns the dialog shell, backdrop, focus behavior, and close lifecycle.
 - Added Angular Material dialog setup, animation provider, prebuilt theme import, and dialog panel styling.
+- Restored the detail popup size to the previous near-full-page layout using viewport-based dialog width and height.

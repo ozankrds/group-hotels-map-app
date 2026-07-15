@@ -22,15 +22,18 @@ export class HotelInfoWindow {
   });
 
   requestDetails() {
+    const dialogMargin = 'clamp(32px, 6vw, 84px)';
+
     this.dialog.open(HotelDetail, {
       data: this.hotel(),
-      width: 'min(940px, calc(100vw - 32px))',
-      maxWidth: 'calc(100vw - 32px)',
-      maxHeight: 'calc(100vh - 32px)',
+      width: `calc(100vw - ${dialogMargin})`,
+      height: `calc(100vh - ${dialogMargin})`,
+      maxWidth: `calc(100vw - ${dialogMargin})`,
+      maxHeight: `calc(100vh - ${dialogMargin})`,
       panelClass: 'hotel-detail-dialog',
       autoFocus: 'dialog',
     });
-    this.closed.emit();
+    this.close();
   }
 
   close() {
