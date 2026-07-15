@@ -11,6 +11,17 @@
     @if (contentTemplate; as template) {
       <app-map-content-outlet [googleMap]="googleMap" [content]="template"></app-map-content-outlet>
     }
+
+    @for (markerView of markers(); track markerView.id) {
+      <map-advanced-marker
+        #marker="mapAdvancedMarker"
+        [position]="markerView.position2d"
+        [content]="markerView.content"
+        [title]="markerView.title"
+        [gmpClickable]="true"
+        (gmpClick)="handleMarkerClick(marker, markerView)"
+      ></map-advanced-marker>
+    }
   </google-map>
 } @else if (apiLoadError()) {
   <div class="loading-message">

@@ -1,15 +1,7 @@
 import { Hotel } from '../../models/hotel.model';
+import { HotelMarker } from '../../models/hotel-marker.model';
 
 const hotelMarkerIconUrl = '/building.png';
-
-export interface HotelMarker {
-  id: number;
-  hotel: Hotel;
-  title: string;
-  position2d: google.maps.LatLngLiteral;
-  position3d: string;
-  content: HTMLElement;
-}
 
 export function createHotelMarkers(hotels: readonly Hotel[]): readonly HotelMarker[] {
   return hotels.map((hotel) => ({

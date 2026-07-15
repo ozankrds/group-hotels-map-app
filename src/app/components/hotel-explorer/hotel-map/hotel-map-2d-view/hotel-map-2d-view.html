@@ -1,4 +1,8 @@
-<app-map-2d (mapReady)="handleMapReady($event)">
+<app-map-2d
+  [markers]="markers()"
+  (mapReady)="handleMapReady($event)"
+  (markerClick)="openHotelInfoWindow($event.marker, $event.markerView.hotel)"
+>
   <ng-template>
     <map-info-window
       #hotelInfoWindow="mapInfoWindow"
@@ -10,16 +14,5 @@
         </app-hotel-info-window>
       }
     </map-info-window>
-
-    @for (markerView of markers(); track markerView.id) {
-      <map-advanced-marker
-        #marker="mapAdvancedMarker"
-        [position]="markerView.position2d"
-        [content]="markerView.content"
-        [title]="markerView.title"
-        [gmpClickable]="true"
-        (gmpClick)="openHotelInfoWindow(marker, markerView.hotel)"
-      ></map-advanced-marker>
-    }
   </ng-template>
 </app-map-2d>

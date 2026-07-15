@@ -1,7 +1,7 @@
 import { Component, effect, input, signal, viewChild } from '@angular/core';
 import { GoogleMapsModule, MapAdvancedMarker, MapInfoWindow } from '@angular/google-maps';
+import { HotelMarker } from '../../../../models/hotel-marker.model';
 import { Hotel } from '../../../../models/hotel.model';
-import { HotelMarker } from '../../../../shared/utils/hotel-marker.util';
 import { createHotelBounds } from '../../../../shared/utils/map-bounds.util';
 import { Map2dComponent } from '../../../map-2d/map-2d';
 import { HotelInfoWindow } from '../hotel-info-window/hotel-info-window';
@@ -19,7 +19,7 @@ export class HotelMap2dView {
   readonly infoWindowHotel = signal<Hotel | null>(null);
 
   private map = signal<google.maps.Map | null>(null);
-  private readonly hotelInfoWindow = viewChild<MapInfoWindow>('hotelInfoWindow');
+  private readonly mapInfoWindow = viewChild<MapInfoWindow>('hotelInfoWindow');
 
   private readonly focusedHotelsEffect = effect(() => {
     this.closeHotelInfoWindow();
@@ -32,12 +32,12 @@ export class HotelMap2dView {
   }
 
   openHotelInfoWindow(marker: MapAdvancedMarker, hotel: Hotel) {
-    this.hotelInfoWindow()?.open(marker);
+    this.mapInfoWindow()?.open(marker);
     this.infoWindowHotel.set(hotel);
   }
 
   closeHotelInfoWindow() {
-    this.hotelInfoWindow()?.close();
+    this.mapInfoWindow()?.close();
     this.infoWindowHotel.set(null);
   }
 

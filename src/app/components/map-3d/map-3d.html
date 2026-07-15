@@ -12,6 +12,16 @@
     @if (contentTemplate; as template) {
       <ng-container [ngTemplateOutlet]="template"></ng-container>
     }
+
+    @for (markerView of markers(); track markerView.id) {
+      <gmp-marker-3d-interactive
+        altitude-mode="CLAMP_TO_GROUND"
+        collision-behavior="REQUIRED"
+        [attr.position]="markerView.position3d"
+        [attr.title]="markerView.title"
+        (gmpClick)="handleMarkerClick($event, markerView)"
+      ></gmp-marker-3d-interactive>
+    }
   </gmp-map-3d>
 } @else if (apiLoadError()) {
   <div class="loading-message">

@@ -15,7 +15,7 @@ export class HotelMap {
   private readonly hotelService = inject(HotelService);
 
   readonly hotels = this.hotelService.getHotels();
-  readonly hotelMapPoints = createHotelMarkers(this.hotels);
+  readonly hotelMarkers = createHotelMarkers(this.hotels);
 
   readonly focusedHotels = signal<readonly Hotel[]>(this.hotels);
   viewMode = signal<HotelMapViewMode>('2d');

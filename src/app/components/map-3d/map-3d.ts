@@ -16,12 +16,21 @@ import {
 } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 import { environment } from '../../environments/environment.development';
+import { HotelMarker } from '../../models/hotel-marker.model';
 import { Map3dCamera } from '../../models/map-3d-camera.model';
 import { GoogleMapsLoaderService } from '../../services/google-maps-loader.service';
+import { GmpMarker3dInteractiveClick } from './gmp-marker-3d-interactive-click';
+
+type Marker3DInteractiveElement = google.maps.maps3d.Marker3DInteractiveElement;
+
+export interface Map3dMarkerClick {
+  marker: Marker3DInteractiveElement;
+  markerView: HotelMarker;
+}
 
 @Component({
   selector: 'app-map-3d',
-  imports: [NgTemplateOutlet],
+  imports: [NgTemplateOutlet, GmpMarker3dInteractiveClick],
   templateUrl: './map-3d.html',
   styleUrl: './map-3d.scss',
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -30,10 +39,12 @@ export class Map3dComponent implements OnInit, OnDestroy {
   private readonly googleMapsLoader = inject(GoogleMapsLoaderService);
 
   readonly camera = input.required<Map3dCamera>();
+  readonly markers = input<readonly HotelMarker[]>([]);
   readonly mode = input<google.maps.maps3d.MapModeString>('HYBRID');
   readonly mapId = environment.googleMapsMapId;
 
   readonly mapReady = output<google.maps.maps3d.Map3DElement>();
+  readonly markerClick = output<Map3dMarkerClick>();
   readonly loadError = output<string>();
 
   readonly apiLoadError = signal<string | null>(null);
@@ -102,5 +113,9 @@ export class Map3dComponent implements OnInit, OnDestroy {
       this.apiLoadError.set(loadError);
       this.loadError.emit(loadError);
     }
+  }
+
+  handleMarkerClick(marker: Marker3DInteractiveElement, markerView: HotelMarker) {
+    this.markerClick.emit({ marker, markerView });
   }
 }

@@ -9,10 +9,16 @@ import {
   output,
   signal,
 } from '@angular/core';
-import { GoogleMapsModule } from '@angular/google-maps';
+import { GoogleMapsModule, MapAdvancedMarker } from '@angular/google-maps';
 import { environment } from '../../environments/environment.development';
+import { HotelMarker } from '../../models/hotel-marker.model';
 import { GoogleMapsLoaderService } from '../../services/google-maps-loader.service';
 import { MapContentOutlet } from './map-content-outlet/map-content-outlet';
+
+export interface Map2dMarkerClick {
+  marker: MapAdvancedMarker;
+  markerView: HotelMarker;
+}
 
 @Component({
   selector: 'app-map-2d',
@@ -24,9 +30,11 @@ export class Map2dComponent implements OnInit {
   private readonly googleMapsLoader = inject(GoogleMapsLoaderService);
 
   readonly options = input<google.maps.MapOptions>({});
+  readonly markers = input<readonly HotelMarker[]>([]);
   readonly mapId = environment.googleMapsMapId;
 
   readonly mapReady = output<google.maps.Map>();
+  readonly markerClick = output<Map2dMarkerClick>();
   readonly loadError = output<string>();
 
   apiLoaded = signal(false);
@@ -62,5 +70,9 @@ export class Map2dComponent implements OnInit {
 
   handleMapInitialized(map: google.maps.Map) {
     this.mapReady.emit(map);
+  }
+
+  handleMarkerClick(marker: MapAdvancedMarker, markerView: HotelMarker) {
+    this.markerClick.emit({ marker, markerView });
   }
 }
